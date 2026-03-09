@@ -1,0 +1,87 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{toc.length > 0 && (
+  <nav id="toc" class="text-sm">
+    <p class="font-semibold mb-3 text-gray-700">Contents</p>
+    <ul class="list-none border-l border-gray-200 space-y-0.5">
+      {toc.map((h) => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            data-toc-link
+            data-heading={h.slug}
+            class:list={[
+              "toc-link block truncate py-0.5 border-l-2 -ml-px transition-colors duration-150",
+              "text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-400",
+              h.depth === 2 ? "pl-3" : "pl-6",
+            ]}
+          >
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  function initToc() {
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]");
+    if (!links.length) return;
+
+    const slugs = Array.from(links).map((l) => l.dataset.heading!);
+    const headingEls = slugs
+      .map((s) => document.getElementById(s))
+      .filter(Boolean) as HTMLElement[];
+
+    let activeSlug = slugs[0];
+
+    function setActive(slug: string) {
+      if (slug === activeSlug) return;
+      activeSlug = slug;
+      links.forEach((link) => {
+        const isActive = link.dataset.heading === slug;
+        link.classList.toggle("font-bold", isActive);
+        link.classList.toggle("text-gray-900", isActive);
+        link.classList.toggle("border-gray-900", isActive);
+        link.classList.toggle("text-gray-400", !isActive);
+        link.classList.toggle("border-transparent", !isActive);
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          setActive(visible[0].target.id);
+        }
+      },
+      { rootMargin: "0px 0px -70% 0px", threshold: 0 },
+    );
+
+    headingEls.forEach((el) => observer.observe(el));
+
+    const scrollY = window.scrollY;
+    for (let i = headingEls.length - 1; i >= 0; i--) {
+      if (headingEls[i].offsetTop <= scrollY + 100) {
+        setActive(slugs[i]);
+        break;
+      }
+    }
+  }
+
+  initToc();
+  document.addEventListener("astro:after-swap", initToc);
+</script>

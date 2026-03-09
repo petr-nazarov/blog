@@ -1,0 +1,20 @@
+---
+import { AUTHOR } from "../consts";
+---
+
+<aside class="mt-12 pt-8 border-t border-gray-200">
+  <a href={AUTHOR.url} class="flex items-center gap-4 group">
+    <img
+      src={AUTHOR.avatar}
+      alt={AUTHOR.name}
+      width="48"
+      height="48"
+      class="rounded-full"
+      loading="lazy"
+    />
+    <div>
+      <p class="font-semibold group-hover:underline">{AUTHOR.name}</p>
+      <p class="text-sm text-gray-500">{AUTHOR.title}</p>
+    </div>
+  </a>
+</aside>
