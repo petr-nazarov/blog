@@ -57,6 +57,15 @@ const siteSchema = JSON.stringify({
 <!doctype html>
 <html lang={SITE.lang}>
   <head>
+    <!-- Google Analytics -->
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`}></script>
+    <script is:inline define:vars={{ gaId: SITE.gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', gaId);
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
