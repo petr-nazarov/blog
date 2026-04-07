@@ -5,6 +5,12 @@
   display: none;
 }
 
+.pagefind-highlight {
+  background-color: #fef08a;
+  padding: 0.1em 0;
+  border-radius: 0.125rem;
+}
+
 .prose :not(pre) > code {
   background-color: #f3f4f6;
   border: 1px solid #e5e7eb;
@@ -29,7 +35,8 @@
   header:has(nav),
   footer,
   #toc-sidebar,
-  .toc-mobile {
+  .toc-mobile,
+  #search-modal {
     display: none !important;
   }
 

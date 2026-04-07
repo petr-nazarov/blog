@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { SITE, AUTHOR } from "../consts";
+import SearchModal from "../components/SearchModal.astro";
 
 interface Props {
   title: string;
@@ -107,8 +108,21 @@ const siteSchema = JSON.stringify({
   </head>
   <body class="bg-white text-gray-900 min-h-screen">
     <header class="max-w-3xl mx-auto px-4 py-8">
-      <nav class="flex items-center justify-between">
-        <a href="/" class="text-lg font-semibold hover:underline">{SITE.title}</a>
+      <nav class="flex items-center justify-between gap-4">
+        <a href="/" class="text-lg font-semibold hover:underline shrink-0">{SITE.title}</a>
+        <button
+          id="search-trigger"
+          class="flex items-center gap-2 flex-1 max-w-xs border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-400 hover:border-gray-300 hover:text-gray-500 transition-colors cursor-pointer"
+          aria-label="Search posts"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <span class="hidden sm:inline flex-1 text-left">Search posts...</span>
+          <kbd class="hidden sm:inline text-xs border border-gray-200 rounded px-1.5 py-0.5 font-sans">⌘K</kbd>
+          <kbd class="hidden sm:inline text-xs border border-gray-200 rounded px-1.5 py-0.5 font-sans">/</kbd>
+        </button>
         <ul class="flex items-center gap-4">
           <li>
             <a href={AUTHOR.github} class="text-gray-400 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
@@ -139,5 +153,6 @@ const siteSchema = JSON.stringify({
     <footer class="max-w-3xl mx-auto px-4 py-8 text-sm text-gray-500 border-t border-gray-200">
       <p>&copy; {new Date().getFullYear()}</p>
     </footer>
+    <SearchModal />
   </body>
 </html>
