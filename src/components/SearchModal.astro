@@ -61,11 +61,13 @@ import Search from "astro-pagefind/components/Search";
   }
 </style>
 
-<script>
-  function initSearch() {
-    const modal = document.getElementById("search-modal")!;
-    const backdrop = document.getElementById("search-backdrop")!;
-    const searchContainer = document.getElementById("search")!;
+<script lang="ts">
+  function initSearch(): void {
+    const modal = document.getElementById("search-modal");
+    const backdrop = document.getElementById("search-backdrop");
+    const searchContainer = document.getElementById("search");
+
+    if (!modal || !backdrop || !searchContainer) return;
 
     let selectedIndex = -1;
 
@@ -73,7 +75,7 @@ import Search from "astro-pagefind/components/Search";
       return searchContainer.querySelectorAll<HTMLAnchorElement>(".pagefind-ui__result-link");
     }
 
-    function updateSelection() {
+    function updateSelection(): void {
       const links = getResultLinks();
       links.forEach((link, i) => {
         if (i === selectedIndex) {
@@ -90,7 +92,7 @@ import Search from "astro-pagefind/components/Search";
       return input?.value?.trim() ?? "";
     }
 
-    function rewriteLinks() {
+    function rewriteLinks(): void {
       const query = getQuery();
       if (!query) return;
       const links = getResultLinks();
@@ -105,7 +107,6 @@ import Search from "astro-pagefind/components/Search";
       });
     }
 
-    // Observe Pagefind result changes
     const observer = new MutationObserver(() => {
       selectedIndex = -1;
       updateSelection();
@@ -113,7 +114,7 @@ import Search from "astro-pagefind/components/Search";
     });
     observer.observe(searchContainer, { childList: true, subtree: true });
 
-    function open() {
+    function open(): void {
       modal.classList.remove("hidden");
       document.body.style.overflow = "hidden";
       selectedIndex = -1;
@@ -125,7 +126,7 @@ import Search from "astro-pagefind/components/Search";
       }
     }
 
-    function close() {
+    function close(): void {
       modal.classList.add("hidden");
       document.body.style.overflow = "";
       selectedIndex = -1;
@@ -133,13 +134,17 @@ import Search from "astro-pagefind/components/Search";
 
     function isEditableTarget(target: EventTarget | null): boolean {
       if (target instanceof HTMLElement) {
-        return target.isContentEditable || target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement;
+        return (
+          target.isContentEditable ||
+          target instanceof HTMLInputElement ||
+          target instanceof HTMLTextAreaElement ||
+          target instanceof HTMLSelectElement
+        );
       }
       return false;
     }
 
-    // Global keyboard shortcuts
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (((e.metaKey || e.ctrlKey) && e.key === "k") || (e.key === "/" && !isEditableTarget(e.target))) {
         e.preventDefault();
         if (modal.classList.contains("hidden")) {
@@ -154,8 +159,7 @@ import Search from "astro-pagefind/components/Search";
       }
     });
 
-    // Arrow navigation and Enter on the search input
-    searchContainer.addEventListener("keydown", (e) => {
+    searchContainer.addEventListener("keydown", (e: KeyboardEvent) => {
       const links = getResultLinks();
       if (links.length === 0) return;
 
@@ -173,7 +177,6 @@ import Search from "astro-pagefind/components/Search";
       }
     });
 
-    // Reset selection on input change
     searchContainer.addEventListener("input", () => {
       selectedIndex = -1;
     });

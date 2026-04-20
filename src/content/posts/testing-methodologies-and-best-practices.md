@@ -1,7 +1,7 @@
 ---
 title: "Testing Methodologies and best practices"
 description: "A walkthrough on testing — why it matters, the testing pyramid, tools like Vitest, Cypress, and Testcontainers, mutation testing with Stryker, and best practices for writing maintainable tests."
-date: 2026-05-04
+date: 2026-04-02
 tags: ["testing", "unit-tests", "integration-tests", "testcontainers", "vitest", "cypress", "tdd"]
 ---
 
