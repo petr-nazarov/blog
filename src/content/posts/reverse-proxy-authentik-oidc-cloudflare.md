@@ -63,6 +63,8 @@ So far it's just routing. The interesting question is what else you can do once 
 
 ## Putting auth at the proxy
 
+![OIDC in reverse proxy](../assets/images/oidc-in-reverse-proxy.png)
+
 The first thing you can do is block requests. IP allowlists are the trivial case, but the more useful move is to make the proxy ask "who are you?" before forwarding anything to the service behind it.
 
 The piece that answers that question is an **identity provider** — an IDP. The IDP sits in front of your reverse proxy. Every request hits the IDP first. If the user is logged in, the request goes through; if not, they get bounced to a login page. The protected service never sees an anonymous request.
@@ -145,6 +147,8 @@ Two things you should never put in a JWT:
 2. **Massive permission lists.** JWTs ride in headers (or cookies), and headers have size limits. Nginx defaults to a [4 KB header buffer](https://nginx.org/en/docs/http/ngx_http_core_module.html#large_client_header_buffers); cookies have similar per-domain limits. 
 
 ## OIDC: the application-level handshake
+
+![OIDC in app](../assets/images/oidc-in-app.png)
 
 OpenID Connect sits on top of OAuth 2.0 and standardises "let an external IDP authenticate this user, and hand back a JWT my app can trust." It's how you get the "Sign in with Google" button, and it's also how Authentik, Keycloak, and Descope pass identity into your apps.
 
