@@ -284,9 +284,9 @@ For pure file sync, both have good desktop and mobile clients. The Android sync 
 
 Because every peer holds a full copy, you also get automatic backup distributed across all your devices.
 
-### Excalidraw + Storage
+### Excalidraw + ExcaliDash
 
-[Excalidraw](https://excalidraw.com/) is a fantastic whiteboarding tool, but the free hosted version stores diagrams only in browser local storage. That means switching from your home machine to your work machine requires exporting and importing a file. The self-hosted version paired with the [Excalidraw storage backend](https://github.com/kitsteam/excalidraw-storage-backend) fixes this: diagrams live on your server, you can share editable/viewer links, and with a WebSocket collaboration server you also get multi-user real-time editing.
+[Excalidraw](https://excalidraw.com/) is a fantastic whiteboarding tool, but the free hosted version stores diagrams only in browser local storage. That means switching from your home machine to your work machine requires exporting and importing a file. [ExcaliDash](https://github.com/ZimengXiong/ExcaliDash) fixes this: it is a self-hosted dashboard and organizer that wraps Excalidraw with a proper backend. Diagrams persist to a database (SQLite by default, external DBs supported) in the portable `.excalidraw` format, and you get collections, drag-and-drop organization, and full-text search across everything you have drawn. It also adds real-time collaboration with live presence, automatic version snapshots you can preview and restore, scoped internal/external share links, and optional multi-user login via native credentials or OIDC — which slots neatly into the Authentik setup from earlier.
 
 ### Home Assistant
 
